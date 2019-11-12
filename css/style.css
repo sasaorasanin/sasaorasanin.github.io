@@ -50,7 +50,7 @@ a:focus {
 }
 
 .intro .btn-lg {
-    width: 180px;
+    padding: 15px;
     height: 50px;
     color: #ffffff;
     border: none;
@@ -66,20 +66,6 @@ a:focus {
     width: 100%;
 }
 
-.projects-section .see-work {
-    height: 100px;
-    padding: 25px 0;
-    text-align: center;
-    background-color: #0c161e;
-    color: #ffffff;
-}
-
-.projects-section .see-work h2 {
-    line-height: 50px;
-    font-size: 44px;
-    margin: 0;
-    font-weight: 700;
-}
 
 .projects-section .set1 {
     height: 50px;
@@ -546,14 +532,6 @@ a:focus {
         font-size: 24px;
     }
 
-    .intro .btn-lg {
-        width: 140px;
-    }
-
-    .projects-section .see-work h2 {
-        line-height: 42px;
-        font-size: 36px;
-    }
 
     .projects-section .projects-section {
         height: 360px;
