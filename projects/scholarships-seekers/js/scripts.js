@@ -6,13 +6,13 @@ $(document).ready(function() {
                 website = `<a href="${ item.description.includes("http") ? item.description : 'https://' + item.description }">${ item.description }</a>`;
             }
             $('#data').append(`<tr>
-                <td data-header="#"><span>${ i+1 }</span></td>
-                <td data-header="Name"><span>${ item.name }</span></td>
-                <td data-header="State"><span>${ item.state }</span></td>
-                <td data-header="League"><span>${ item.league }</span></td>
-                <td data-header="Division"><span>${ item.division }</span></td>
-                <td data-header="Website"><span>${ website }</span></td>
-                <td data-header="Contacts"><span><a href="#">Show</a></span></td>
+                <td data-header="<span class='xs-header'>#: </span>"><span>${ i+1 }</span></td>
+                <td data-header="<span class='xs-header'>Name: </span>"><span>${ item.name }</span></td>
+                <td data-header="<span class='xs-header'>State: </span>"><span>${ item.state }</span></td>
+                <td data-header="<span class='xs-header'>League: </span>"><span>${ item.league }</span></td>
+                <td data-header="<span class='xs-header'>Division: </span>"><span>${ item.division }</span></td>
+                <td data-header="<span class='xs-header'>Website: </span>"><span>${ website }</span></td>
+                <td data-header="<span class='xs-header'>Contacts: </span>"><span><a href="#">Show</a></span></td>
             </tr>`);
         });
     });

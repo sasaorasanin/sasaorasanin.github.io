@@ -48,7 +48,7 @@
         display: none;
     }
     .table td::before {
-        content: "<span class='xs-header'>" + attr(data-header) ": </span>";
+        content: attr(data-header);
     }
     .table td span {
         display: block;
