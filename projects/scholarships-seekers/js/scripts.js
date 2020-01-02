@@ -2,7 +2,7 @@ $(document).ready(function() {
     $.get('https://www.sasaorasanin.com/projects/scholarships-seekers/api.php', function(response) {
         $.each(response, function(i, item) {
             $('#data').append(`<tr>
-                <td>${ i++ }</td>
+                <td>${ i+1 }</td>
                 <td>${ item.name }</td>
                 <td>${ item.state }</td>
                 <td>${ item.league }</td>
