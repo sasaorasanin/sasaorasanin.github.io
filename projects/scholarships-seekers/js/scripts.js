@@ -7,7 +7,7 @@ $(document).ready(function() {
             <td>${ response.state }</td>
             <td>${ response.league }</td>
             <td>${ response.division }</td>
-            <td>${ response.description }</td>
+            <td><a href="${ response.description }">${ response.description }</a></td>
             <td>${ response.slug }</td>
         </tr>`);
     });
