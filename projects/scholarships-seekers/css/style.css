@@ -13,6 +13,12 @@
     overflow-y: auto;
 }
 
+.xs-header {
+    display: block;
+    width: 100px;
+    float: left;
+}
+
 @media (min-width: 768px) {
     .bd-placeholder-img-lg {
         font-size: 3.5rem;
@@ -42,7 +48,13 @@
         display: none;
     }
     .table td::before {
-        content: attr(data-header) ": ";
+        content: "<span class='xs-header'>" + attr(data-header) ": </span>";
+    }
+    .table td span {
+        display: block;
+        width: calc(100% - 100px);
+        text-align: center;
+        float: right;
     }
 }
 

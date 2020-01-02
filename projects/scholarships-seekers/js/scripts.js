@@ -6,13 +6,13 @@ $(document).ready(function() {
                 website = `<a href="${ item.description.includes("http") ? item.description : 'https://' + item.description }">${ item.description }</a>`;
             }
             $('#data').append(`<tr>
-                <td data-header="#">${ i+1 }</td>
-                <td data-header="Name">${ item.name }</td>
-                <td data-header="State">${ item.state }</td>
-                <td data-header="League">${ item.league }</td>
-                <td data-header="Division">${ item.division }</td>
-                <td data-header="Website">${ website }</td>
-                <td data-header="Contacts"><button class="btn btn-info btn-sm float-right">Show</button></td>
+                <td data-header="#"><span>${ i+1 }</span></td>
+                <td data-header="Name"><span>${ item.name }</span></td>
+                <td data-header="State"><span>${ item.state }</span></td>
+                <td data-header="League"><span>${ item.league }</span></td>
+                <td data-header="Division"><span>${ item.division }</span></td>
+                <td data-header="Website"><span>${ website }</span></td>
+                <td data-header="Contacts"><span><a href="#">Show</a></span></td>
             </tr>`);
         });
     });
