@@ -1,14 +1,15 @@
 $(document).ready(function() {
     $.get('https://www.sasaorasanin.com/projects/scholarships-seekers/api.php', function(response) {
-        console.log(response);
-        $('#data').append(`<tr>
-            <td>${ response.id }</td>
-            <td>${ response.name }</td>
-            <td>${ response.state }</td>
-            <td>${ response.league }</td>
-            <td>${ response.division }</td>
-            <td><a href="${ response.description }">${ response.description }</a></td>
-            <td>${ response.slug }</td>
-        </tr>`);
+        $.each(response, function(item) {
+            $('#data').append(`<tr>
+                <td>${ item.id }</td>
+                <td>${ item.name }</td>
+                <td>${ item.state }</td>
+                <td>${ item.league }</td>
+                <td>${ item.division }</td>
+                <td><a href="${ item.description.includes('http') ? item.description : 'https://' + item.description }">${ item.description }</a></td>
+                <td>${ item.slug }</td>
+            </tr>`);
+        });
     });
 });
