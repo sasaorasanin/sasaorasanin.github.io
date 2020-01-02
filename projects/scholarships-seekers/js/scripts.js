@@ -7,7 +7,7 @@ $(document).ready(function() {
                 <td>${ item.state }</td>
                 <td>${ item.league }</td>
                 <td>${ item.division }</td>
-                <td><a href="${ item.description.includes('http') ? item.description : 'https://' + item.description }">${ item.description }</a></td>
+                <td><a href="${ item.description && item.description.includes('http') ? item.description : 'https://' + item.description }">${ item.description }</a></td>
                 <td>${ item.slug }</td>
             </tr>`);
         });
