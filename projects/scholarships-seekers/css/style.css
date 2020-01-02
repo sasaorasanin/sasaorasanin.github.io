@@ -1,5 +1,5 @@
 table ,tr td{
-    border:1px solid red
+    border:1px solid;
 }
 tbody {
     display:block;
