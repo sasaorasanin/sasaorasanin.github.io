@@ -13,12 +13,6 @@
     overflow-y: auto;
 }
 
-.xs-header {
-    display: block;
-    width: 100px;
-    float: left;
-}
-
 @media (min-width: 768px) {
     .bd-placeholder-img-lg {
         font-size: 3.5rem;
