@@ -7,14 +7,19 @@
     user-select: none;
 }
 
-@media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-    }
-}
-
 .table-responsive {
     height: calc(100vh - 150px);
     overflow: hidden;
     overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+
+    .table-responsive {
+        height: calc(100vh - 150px);
+        overflow: auto;
+    }
 }
