@@ -25,6 +25,9 @@
 }
 
 @media screen and (max-width: 992px) {
+    table, tbody, th, td, tr {
+        display: block;
+    }
     .table td {
         width: 100% !important;
         display: block !important;
