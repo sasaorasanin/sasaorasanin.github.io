@@ -16,6 +16,8 @@
 .modal-xl {
     width:calc(100vw - 80px) !important;
     max-width:calc(100vw - 80px) !important;
+    margin-left: 40px !important;
+    margin-right: 40px !important;
 }
 
 @media (min-width: 768px) {
