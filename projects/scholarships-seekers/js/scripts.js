@@ -11,7 +11,7 @@ $(document).ready(function() {
                     $('#contacts').append(`<tr>
                         <td data-header="#"><span>${ i+1 }</span></td>
                         <td data-header="Name"><span>${ contact.name }</span></td>
-                        <td data-header="Email"><span>${ contact.email }</span></td>
+                        <td data-header="Email"><span><a href="mailto:${ contact.email }">${ contact.email }</a></span></td>
                         <td data-header="Sport"><span>${ contact.sport }</span></td>
                         <td data-header="Position"><span>${ contact.position }</span></td>
                     </tr>`);
