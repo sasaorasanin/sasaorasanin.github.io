@@ -3,7 +3,7 @@ $(document).ready(function() {
         $.each(response, function(i, item) {
             let website = '';
             if (item.description) {
-                website = `<a href="${ item.description.includes("http") ? item.description : 'https://' + item.description }">${ item.description }</a>`;
+                website = `<a target="_blank" href="${ item.description.includes("http") ? item.description : 'https://' + item.description }">${ item.description }</a>`;
             }
             $('#data').append(`<tr>
                 <td data-header="#"><span>${ i+1 }</span></td>
