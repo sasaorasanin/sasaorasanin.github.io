@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $.get('https://www.sasaorasanin.com/projects/scholarships-seekers/api.php', function(response) {
-        $.each(response, function(i, item) {
+        $.each(response.schools, function(i, item) {
             let website = '';
             if (item.description) {
                 website = `<a target="_blank" href="${ item.description.includes("http") ? item.description : 'https://' + item.description }">${ item.description }</a>`;
