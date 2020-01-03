@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    feather.replace();
     $.get('https://www.sasaorasanin.com/projects/scholarships-seekers/api.php', function(response) {
         $.each(response, function(i, item) {
             let website = '';
