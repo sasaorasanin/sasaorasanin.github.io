@@ -21,7 +21,7 @@ $(document).ready(function() {
         e.preventDefault();
         $.get('https://www.sasaorasanin.com/projects/scholarships-seekers/api.php?id=' + $(this).data("id"), function(response) {
             if (response.error != undefined && response.error) {
-                alert( err.message );
+                alert( response.message );
                 return false;
             }
             $('#contacts').html('');
