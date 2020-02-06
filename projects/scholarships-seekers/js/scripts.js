@@ -19,9 +19,9 @@ $(document).ready(function() {
     
     $(document).on('click','.show-contacts', function(e) {
         e.preventDefault();
-        $.get('https://www.sasaorasanin.com/projects/scholarships-seekers/api.php?id=' + $(this).data("id"), function() {
+        $.get('https://www.sasaorasanin.com/projects/scholarships-seekers/api.php?id=' + $(this).data("id"), function(response) {
             $('#contacts').html('');
-            $.each(response.contacts.data, function(i, contact) {
+            $.each(response.contacts, function(i, contact) {
                 $('#contacts').append(`<tr>
                     <td data-header="#"><span>${ i+1 }</span></td>
                     <td data-header="Name"><span>${ contact.name }</span></td>
