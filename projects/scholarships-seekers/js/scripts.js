@@ -14,10 +14,11 @@ $(document).ready(function() {
                 <td data-header="Website"><span>${ website }</span></td>
                 <td data-header="Contacts"><span><a href="#" class="show-contacts" data-id="${ item.id }">Show</a></span></td>
             </tr>`);
-        });
+        }).fail(function(err) { alert( err.message ); });
     });
     
-    $(document).on('click','.show-contacts', function() {
+    $(document).on('click','.show-contacts', function(e) {
+        e.preventDefault();
         $.get('https://www.sasaorasanin.com/projects/scholarships-seekers/api.php?id=' + $(this).data("id"), function() {
             $('#contacts').html('');
             $.each(response.contacts.data, function(i, contact) {
@@ -30,6 +31,6 @@ $(document).ready(function() {
                 </tr>`);
             });
             $('.bd-example-modal-xl').modal('show');
-        });
+        }).fail(function(err) { alert( err.message ); });;
     });
 });
