@@ -20,6 +20,10 @@ $(document).ready(function() {
     $(document).on('click','.show-contacts', function(e) {
         e.preventDefault();
         $.get('https://www.sasaorasanin.com/projects/scholarships-seekers/api.php?id=' + $(this).data("id"), function(response) {
+            if (response.error != undefined && response.error) {
+                alert( err.message );
+                return false;
+            }
             $('#contacts').html('');
             $.each(response.contacts, function(i, contact) {
                 $('#contacts').append(`<tr>
