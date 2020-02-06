@@ -14,8 +14,8 @@ $(document).ready(function() {
                 <td data-header="Website"><span>${ website }</span></td>
                 <td data-header="Contacts"><span><a href="#" class="show-contacts" data-id="${ item.id }">Show</a></span></td>
             </tr>`);
-        }).fail(function(err) { alert( err.message ); });
-    });
+        });
+    }).fail(function(err) { alert( err.message ); });
     
     $(document).on('click','.show-contacts', function(e) {
         e.preventDefault();
