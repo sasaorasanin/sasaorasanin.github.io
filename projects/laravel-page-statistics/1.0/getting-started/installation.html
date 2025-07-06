@@ -90,42 +90,75 @@
 
         <p class="mb-4">You can install the package via composer:</p>
         <div class="relative mb-4" x-data="{ copied: false }">
-          <button @click="navigator.clipboard.writeText('composer require infinityxtech/laravel-page-statistics'); copied = true; setTimeout(() => copied = false, 2000)"
-                  class="absolute top-2 right-2 text-xs bg-blue-600 text-white rounded px-2 py-1">
-            <span x-text="copied ? 'Copied!' : 'Copy'"></span>
-          </button>
-          <pre class="rounded border border-blue-200 bg-blue-50 p-4 overflow-x-auto text-sm"><code class="language-bash">composer require infinityxtech/laravel-page-statistics</code></pre>
-        </div>
+  <button
+    @click="
+      navigator.clipboard.writeText($el.querySelector('code').innerText);
+      copied = true;
+      setTimeout(() => copied = false, 2000);
+    "
+    class="absolute top-2 right-2 text-xs bg-blue-600 text-white rounded px-2 py-1"
+  >
+    <span x-text="copied ? 'Copied!' : 'Copy'"></span>
+  </button>
+  <pre class="rounded border border-blue-200 bg-blue-50 p-4 overflow-x-auto text-sm">
+<code class="language-bash">composer require infinityxtech/laravel-page-statistics</code>
+  </pre>
+</div>
 
-        <p class="mb-4">You can publish and run the migrations with:</p>
-        <div class="relative mb-4" x-data="{ copied: false }">
-          <button @click="navigator.clipboard.writeText('php artisan vendor:publish --tag=\"page-statistics-migrations\"\nphp artisan migrate'); copied = true; setTimeout(() => copied = false, 2000)"
-                  class="absolute top-2 right-2 text-xs bg-blue-600 text-white rounded px-2 py-1">
-            <span x-text="copied ? 'Copied!' : 'Copy'"></span>
-          </button>
-          <pre class="rounded border border-blue-200 bg-blue-50 p-4 overflow-x-auto text-sm"><code class="language-bash">php artisan vendor:publish --tag="page-statistics-migrations"
-php artisan migrate</code></pre>
-        </div>
+<p class="mb-4">You can publish and run the migrations with:</p>
+<div class="relative mb-4" x-data="{ copied: false }">
+  <button
+    @click="
+      navigator.clipboard.writeText($el.querySelector('code').innerText);
+      copied = true;
+      setTimeout(() => copied = false, 2000);
+    "
+    class="absolute top-2 right-2 text-xs bg-blue-600 text-white rounded px-2 py-1"
+  >
+    <span x-text="copied ? 'Copied!' : 'Copy'"></span>
+  </button>
+  <pre class="rounded border border-blue-200 bg-blue-50 p-4 overflow-x-auto text-sm">
+<code class="language-bash">php artisan vendor:publish --tag="page-statistics-migrations"
+php artisan migrate</code>
+  </pre>
+</div>
 
-        <p class="mb-4">You can publish the config file with:</p>
-        <div class="relative mb-4" x-data="{ copied: false }">
-          <button @click="navigator.clipboard.writeText('php artisan vendor:publish --tag=\"page-statistics-config\"'); copied = true; setTimeout(() => copied = false, 2000)"
-                  class="absolute top-2 right-2 text-xs bg-blue-600 text-white rounded px-2 py-1">
-            <span x-text="copied ? 'Copied!' : 'Copy'"></span>
-          </button>
-          <pre class="rounded border border-blue-200 bg-blue-50 p-4 overflow-x-auto text-sm"><code class="language-bash">php artisan vendor:publish --tag="page-statistics-config"</code></pre>
-        </div>
+<p class="mb-4">You can publish the config file with:</p>
+<div class="relative mb-4" x-data="{ copied: false }">
+  <button
+    @click="
+      navigator.clipboard.writeText($el.querySelector('code').innerText);
+      copied = true;
+      setTimeout(() => copied = false, 2000);
+    "
+    class="absolute top-2 right-2 text-xs bg-blue-600 text-white rounded px-2 py-1"
+  >
+    <span x-text="copied ? 'Copied!' : 'Copy'"></span>
+  </button>
+  <pre class="rounded border border-blue-200 bg-blue-50 p-4 overflow-x-auto text-sm">
+<code class="language-bash">php artisan vendor:publish --tag="page-statistics-config"</code>
+  </pre>
+</div>
 
-        <p class="mb-2">This is the contents of the published config file:</p>
-        <div class="relative mb-4" x-data="{ copied: false }">
-          <button @click="navigator.clipboard.writeText(`return [\n    'geoip_db_path' => null\n];`); copied = true; setTimeout(() => copied = false, 2000)"
-                  class="absolute top-2 right-2 text-xs bg-blue-600 text-white rounded px-2 py-1">
-            <span x-text="copied ? 'Copied!' : 'Copy'"></span>
-          </button>
-          <pre class="rounded border border-blue-200 bg-blue-50 p-4 overflow-x-auto text-sm"><code class="language-php">return [
+<p class="mb-2">This is the contents of the published config file:</p>
+<div class="relative mb-4" x-data="{ copied: false }">
+  <button
+    @click="
+      navigator.clipboard.writeText($el.querySelector('code').innerText);
+      copied = true;
+      setTimeout(() => copied = false, 2000);
+    "
+    class="absolute top-2 right-2 text-xs bg-blue-600 text-white rounded px-2 py-1"
+  >
+    <span x-text="copied ? 'Copied!' : 'Copy'"></span>
+  </button>
+  <pre class="rounded border border-blue-200 bg-blue-50 p-4 overflow-x-auto text-sm">
+<code class="language-php">return [
     'geoip_db_path' => null
-];</code></pre>
-        </div>
+];</code>
+  </pre>
+</div>
+
 
         <div class="mt-6 flex justify-between text-sm">
           <a href="index.html" class="text-blue-600 hover:underline">← Previous: Introduction</a>
