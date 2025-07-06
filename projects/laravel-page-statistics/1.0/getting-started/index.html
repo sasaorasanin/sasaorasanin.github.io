@@ -10,24 +10,26 @@
 <body class="bg-white text-gray-800">
 
   <!-- Top bar -->
-  <header class="bg-blue-900 text-white flex justify-between items-center px-4 py-3">
-    <div class="flex items-center space-x-4">
-      <button class="md:hidden" @click="mobileMenu = !mobileMenu">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-      <span class="font-bold text-lg">Laravel Page Statistics Docs</span>
-    </div>
-    <div class="relative" @click.away="versionMenu = false">
-      <button @click="versionMenu = !versionMenu" class="flex items-center">
-        Version (<span x-text="currentVersion"></span>)
-        <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
-      </button>
-      <div x-show="versionMenu" class="absolute right-0 mt-2 w-32 bg-white border rounded shadow text-gray-800 z-10">
-        <a href="#" @click.prevent="currentVersion = '1'; versionMenu = false" class="block px-3 py-2 hover:bg-gray-100">1</a>
-        <a href="#" @click.prevent="currentVersion = '2'; versionMenu = false" class="block px-3 py-2 hover:bg-gray-100">2</a>
-      </div>
+  <header class="bg-blue-900 text-white px-4 py-3">
+    <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
+        <div class="flex items-center space-x-4">
+        <button class="md:hidden" @click="mobileMenu = !mobileMenu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+        </button>
+        <span class="font-bold text-lg">Laravel Page Statistics Docs</span>
+        </div>
+        <div class="relative" @click.away="versionMenu = false">
+        <button @click="versionMenu = !versionMenu" class="flex items-center">
+            Version (<span x-text="currentVersion"></span>)
+            <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+        </button>
+        <div x-show="versionMenu" class="absolute right-0 mt-2 w-32 bg-white border rounded shadow text-gray-800 z-10">
+            <a href="#" @click.prevent="currentVersion = '1'; versionMenu = false" class="block px-3 py-2 hover:bg-gray-100">1</a>
+            <a href="#" @click.prevent="currentVersion = '2'; versionMenu = false" class="block px-3 py-2 hover:bg-gray-100">2</a>
+        </div>
+        </div>
     </div>
   </header>
 
