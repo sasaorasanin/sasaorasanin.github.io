@@ -8,7 +8,7 @@
   <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/shell.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/php.min.js"></script>
   <script>hljs.highlightAll();</script>
 </head>
@@ -91,7 +91,7 @@
 <p class="mb-4">You can install the package via composer:</p>
 <div class="relative mb-4" x-data="{ copied: false }">
   <pre class="rounded border border-blue-200 bg-blue-50 p-4 overflow-x-auto text-sm">
-<code class="language-bash">composer require infinityxtech/laravel-page-statistics</code>
+<code class="language-console">composer require infinityxtech/laravel-page-statistics</code>
   </pre>
   <button
     @click="
@@ -111,7 +111,7 @@
 <p class="mb-4">You can publish and run the migrations with:</p>
 <div class="relative mb-4" x-data="{ copied: false }">
   <pre class="rounded border border-blue-200 bg-blue-50 p-4 overflow-x-auto text-sm">
-<code class="language-bash">php artisan vendor:publish --tag="page-statistics-migrations"
+<code class="language-console">php artisan vendor:publish --tag="page-statistics-migrations"
 php artisan migrate</code>
   </pre>
   <button
@@ -132,7 +132,7 @@ php artisan migrate</code>
 <p class="mb-4">You can publish the config file with:</p>
 <div class="relative mb-4" x-data="{ copied: false }">
   <pre class="rounded border border-blue-200 bg-blue-50 p-4 overflow-x-auto text-sm">
-<code class="language-bash">php artisan vendor:publish --tag="page-statistics-config"</code>
+<code class="language-console">php artisan vendor:publish --tag="page-statistics-config"</code>
   </pre>
   <button
     @click="
