@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" x-data="{ versionMenu: false, currentVersion: '1', mobileMenu: false, sections: { gettingStarted: true, community: false, license: false } }">
+<head>
+  <meta charset="UTF-8" />
+  <title>Laravel Page Statistics — Changelog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/shell.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/php.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body class="bg-white text-gray-800">
+
+  <header class="bg-blue-900 text-white px-4 py-3">
+    <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <button class="md:hidden" @click="mobileMenu = !mobileMenu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+        <span class="font-bold text-lg">Laravel Page Statistics Docs</span>
+      </div>
+      <div class="relative" @click.away="versionMenu = false">
+        <button @click="versionMenu = !versionMenu" class="flex items-center">
+          Version (<span x-text="currentVersion"></span>)
+          <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.06z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+        <div x-show="versionMenu" class="absolute right-0 mt-2 w-32 bg-white border rounded shadow text-gray-800 z-10">
+          <a href="#" class="block px-3 py-2 hover:bg-gray-100">1</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex justify-center">
+    <div class="flex w-full max-w-7xl">
+
+      <aside :class="mobileMenu ? 'block' : 'hidden md:block'" class="w-64 border-r border-gray-200 h-screen sticky top-0 p-4 bg-white overflow-y-auto">
+        <div>
+          <button @click="sections.gettingStarted = !sections.gettingStarted" class="w-full flex justify-between items-center text-blue-700 font-bold mb-2">
+            Getting Started
+            <svg :class="sections.gettingStarted ? 'rotate-90' : ''" class="w-3 h-3 transform transition-transform" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M6 6l6 6-6 6" clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <ul x-show="sections.gettingStarted" class="space-y-1 pl-2 text-sm">
+            <li><a href="../getting-started/" class="hover:underline">Introduction</a></li>
+            <li><a href="../getting-started/installation.html" class="hover:underline">Installation</a></li>
+            <li><a href="../getting-started/usage.html" class="hover:underline">Usage</a></li>
+            <li><a href="../advanced/configuration.html" class="hover:underline">Configuration</a></li>
+          </ul>
+        </div>
+
+        <div class="mt-4">
+          <button @click="sections.community = !sections.community" class="w-full flex justify-between items-center text-blue-700 font-bold mb-2">
+            Community
+            <svg :class="sections.community ? 'rotate-90' : ''" class="w-3 h-3 transform transition-transform" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M6 6l6 6-6 6" clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <ul x-show="sections.community" class="space-y-1 pl-2 text-sm">
+            <li><a href="#" class="text-blue-700 font-semibold">Changelog</a></li>
+            <li><a href="../community/contributing.html" class="hover:underline">Contributing</a></li>
+            <li><a href="../community/security.html" class="hover:underline">Security</a></li>
+            <li><a href="../community/credits.html" class="hover:underline">Credits</a></li>
+          </ul>
+        </div>
+
+        <div class="mt-4">
+          <button @click="sections.license = !sections.license" class="w-full flex justify-between items-center text-blue-700 font-bold mb-2">
+            License
+            <svg :class="sections.license ? 'rotate-90' : ''" class="w-3 h-3 transform transition-transform" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M6 6l6 6-6 6" clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <ul x-show="sections.license" class="space-y-1 pl-2 text-sm">
+            <li><a href="../license.html" class="hover:underline">MIT License</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <main class="flex-1 p-8 max-w-7xl mx-auto">
+        <h1 class="text-3xl font-bold mb-4">Changelog</h1>
+
+        <div class="mt-6 flex justify-between text-sm">
+          <a href="../advanced/configuration.html" class="text-blue-600 hover:underline">← Previous: Configuration</a>
+          <a href="../community/contributing.html" class="text-blue-600 hover:underline">Next: Contributing →</a>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+</body>
+</html>
