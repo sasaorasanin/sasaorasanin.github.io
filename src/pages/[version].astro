@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CvPage from '../components/CvPage.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+	const versions = await getCollection('versions');
+	return versions
+		.filter((entry) => entry.data.slug !== 'full')
+		.map((entry) => ({
+			params: { version: entry.data.slug }
+		}));
+}
+
+const [site] = await getCollection('site');
+const [aboutMe] = await getCollection('aboutMe');
+const versionSlug = Astro.params.version ?? 'full';
+---
+
+<Layout title={`${site.data.title} | ${versionSlug} CV`} description={aboutMe.data.headline}>
+	<CvPage versionSlug={versionSlug} />
+</Layout>

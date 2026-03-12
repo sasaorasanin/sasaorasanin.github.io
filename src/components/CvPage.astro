@@ -1,0 +1,440 @@
+---
+import { getCollection, render } from 'astro:content';
+
+interface Props {
+	versionSlug?: string;
+}
+
+const { versionSlug = 'full' } = Astro.props;
+
+const [site] = await getCollection('site');
+const [aboutMe] = await getCollection('aboutMe');
+const [education] = await getCollection('education');
+const [contact] = await getCollection('contact');
+
+const versions = await getCollection('versions');
+const selectedVersion = versions.find((entry) => entry.data.slug === versionSlug) ?? versions[0];
+const selectedVersionSlug = selectedVersion?.data.slug ?? 'full';
+const sortedVersions = [...versions].sort((a, b) => (a.data.order ?? Number.MAX_SAFE_INTEGER) - (b.data.order ?? Number.MAX_SAFE_INTEGER));
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const versionOptions = sortedVersions.map((version) => ({
+	name: version.data.name,
+	slug: version.data.slug,
+	href: version.data.slug === 'full' ? baseUrl : `${baseUrl}${version.data.slug}/`
+}));
+const pdfPath =
+	selectedVersionSlug === 'full' ? site.data.pdfPath : `/cv/Sasa-Orasanin-CV-${selectedVersionSlug}.pdf`;
+
+const workExperiences = await getCollection('workExperiences');
+const skills = await getCollection('skills');
+const products = await getCollection('products');
+const ecosystems = await getCollection('ecosystems');
+
+const getPriority = (entry) => {
+	if (selectedVersionSlug === 'full') {
+		return Number.MAX_SAFE_INTEGER;
+	}
+
+	return entry.data.priority?.[selectedVersionSlug] ?? Number.MAX_SAFE_INTEGER;
+};
+
+const matchesDisplay = (entry) => {
+	if (selectedVersionSlug === 'full') {
+		return true;
+	}
+
+	const displayOn = entry.data.displayOn ?? [];
+	return displayOn.includes(selectedVersionSlug);
+};
+
+const byOrder = (a, b) => {
+	const aPriority = getPriority(a);
+	const bPriority = getPriority(b);
+	if (aPriority !== bPriority) {
+		return aPriority - bPriority;
+	}
+
+	const aOrder = a.data.order ?? Number.MAX_SAFE_INTEGER;
+	const bOrder = b.data.order ?? Number.MAX_SAFE_INTEGER;
+
+	if (aOrder !== bOrder) {
+		return aOrder - bOrder;
+	}
+
+	const aDate = Date.parse(`${a.data.start ?? a.id}-01`) || 0;
+	const bDate = Date.parse(`${b.data.start ?? b.id}-01`) || 0;
+
+	return bDate - aDate;
+};
+
+const hydrateEntries = async (entries) =>
+	Promise.all(
+		entries.map(async (entry) => ({
+			entry,
+			Content: (await render(entry)).Content
+		}))
+	);
+
+const sortedWorkExperiences = [...workExperiences].filter(matchesDisplay).sort(byOrder);
+const sortedSkills = [...skills].sort(byOrder);
+const sortedProducts = [...products].filter(matchesDisplay).sort(byOrder);
+const sortedEcosystems = [...ecosystems].filter(matchesDisplay).sort(byOrder);
+
+const workExperienceItems = await hydrateEntries(sortedWorkExperiences);
+const productItems = await hydrateEntries(sortedProducts);
+const ecosystemItems = await hydrateEntries(sortedEcosystems);
+
+const normalizeSkillItems = (items) =>
+	items.map((item, index) => {
+		if (typeof item === 'string') {
+			return {
+				name: item,
+				order: index + 1,
+				displayOn: ['full']
+			};
+		}
+
+		return {
+			name: item.name,
+			order: item.order ?? index + 1,
+			displayOn: item.displayOn ?? ['full']
+		};
+	});
+
+const skillGroups = sortedSkills
+	.filter((entry) => {
+		if (selectedVersionSlug === 'full') {
+			return true;
+		}
+
+		const groupDisplayOn = entry.data.displayOn ?? ['full'];
+		return groupDisplayOn.includes(selectedVersionSlug);
+	})
+	.map((entry) => {
+		const normalizedItems = normalizeSkillItems(entry.data.items)
+			.filter((item) => selectedVersionSlug === 'full' || item.displayOn.includes(selectedVersionSlug))
+			.sort((a, b) => (a.order ?? Number.MAX_SAFE_INTEGER) - (b.order ?? Number.MAX_SAFE_INTEGER));
+
+		return {
+			entry,
+			items: normalizedItems
+		};
+	})
+	.filter((group) => selectedVersionSlug === 'full' || group.items.length > 0);
+
+const aboutRender = await render(aboutMe);
+const educationRender = await render(education);
+const contactRender = await render(contact);
+
+const { Content: AboutContent } = aboutRender;
+const { Content: EducationContent } = educationRender;
+const { Content: ContactContent } = contactRender;
+
+const githubProfile = contact.data.links.find((link) => link.label.toLowerCase().includes('github'));
+
+const collapseWorkMode = selectedVersion?.data.collapse?.workExperiences ?? 'mixed';
+const collapseProductsMode = selectedVersion?.data.collapse?.products ?? 'mixed';
+
+const isOpenByMode = (mode, index, collapsedOn) => {
+	if (mode === 'all') {
+		return false;
+	}
+	if (mode === 'none') {
+		return true;
+	}
+	if (Array.isArray(collapsedOn)) {
+		const isCollapsed = collapsedOn.includes('all') || collapsedOn.includes('*') || collapsedOn.includes(selectedVersionSlug);
+		return !isCollapsed;
+	}
+	return index === 0;
+};
+---
+
+<main class="mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 lg:px-8 print:max-w-none print:px-0 print:pb-0 print:pt-0">
+	<div id="sticky-header" class="sticky-header print:hidden" aria-hidden="true">
+		<div class="sticky-inner">
+			<div class="sticky-identity">
+				<p class="sticky-name">{site.data.title}</p>
+				<p class="sticky-role">{site.data.role}</p>
+			</div>
+			<div class="flex flex-wrap gap-2">
+				<button type="button" class="btn-secondary js-theme-toggle" title="Switch light and dark mode">
+					Dark Theme
+				</button>
+				<select class="version-select js-version-switch" aria-label="Switch CV version">
+					{versionOptions.map((version) => (
+						<option value={version.href} selected={version.slug === selectedVersionSlug}>{version.name}</option>
+					))}
+				</select>
+				<a href={pdfPath} class="btn-primary" title="Download generated CV PDF">
+					Download PDF
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="cv-shell rounded-3xl p-5 shadow-2xl sm:p-8 lg:p-10 print:rounded-none print:p-0 print:shadow-none">
+		<header class="border-b border-[color:var(--border-subtle)] pb-7 print:break-inside-avoid-page">
+			<div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+				<div>
+					<p class="eyebrow">Curriculum Vitae</p>
+					<h1 class="mt-1 text-4xl font-semibold tracking-tight sm:text-5xl">{site.data.title}</h1>
+					<p class="mt-2 text-lg text-[color:var(--ink-2)]">{site.data.role}</p>
+				</div>
+				<div class="flex flex-wrap gap-2 print:hidden">
+					<button type="button" class="btn-secondary js-theme-toggle" title="Switch light and dark mode">
+						Dark Theme
+					</button>
+					<select class="version-select js-version-switch" aria-label="Switch CV version">
+						{versionOptions.map((version) => (
+							<option value={version.href} selected={version.slug === selectedVersionSlug}>{version.name}</option>
+						))}
+					</select>
+					<a href={pdfPath} class="btn-primary" title="Download generated CV PDF">
+						Download PDF
+					</a>
+				</div>
+			</div>
+		</header>
+
+		<div class="print-single-col mt-7 grid gap-6 lg:grid-cols-[20rem_minmax(0,1fr)] print:mt-4 print:grid-cols-1 print:gap-0">
+			<aside class="space-y-5 print:space-y-3">
+				<section class="section-block pt-0 print:break-inside-avoid-page" id="contact">
+					<h2>{contact.data.title}</h2>
+					<div class="grid gap-1.5 text-sm text-[color:var(--ink-2)]">
+						<p>
+							<span class="label">Phone:</span>
+							<a href={`tel:${contact.data.phone.replace(/\s+/g, '')}`}>{contact.data.phone}</a>
+						</p>
+						<p>
+							<span class="label">Email:</span>
+							<a href={`mailto:${contact.data.email}`}>{contact.data.email}</a>
+						</p>
+						<p><span class="label">Location:</span> {contact.data.location}</p>
+					</div>
+					<ul class="chip-list mt-3">
+						{contact.data.links.map((link) => (
+							<li>
+								<a href={link.url}>{link.label}</a>
+							</li>
+						))}
+					</ul>
+					<ContactContent />
+				</section>
+
+				<section class="section-block pt-0 print:hidden" id="skills">
+					<h2>Core Skills</h2>
+					<div class="skills-grid">
+						{skillGroups.map((group) => (
+							<article class="entry-card skill-card">
+								<h3>{group.entry.data.title}</h3>
+								<ul class="list-dash compact skill-list">
+									{group.items.map((item) => <li>{item.name}</li>)}
+								</ul>
+							</article>
+						))}
+					</div>
+				</section>
+			</aside>
+
+			<div class="space-y-6 print:space-y-4">
+				<section class="section-block pt-0 print:break-inside-avoid-page" id="about-me">
+					<h2>About Me</h2>
+					<p class="section-headline">{aboutMe.data.headline}</p>
+					<AboutContent />
+				</section>
+
+				{workExperienceItems.length > 0 && (
+					<section class="section-block" id="work-experience">
+						<h2>Work Experience</h2>
+						<div class="grid gap-4">
+							{workExperienceItems.map(({ entry: experience, Content }, index) => (
+								<details
+									class="entry-toggle print:break-inside-avoid-page"
+									open={isOpenByMode(collapseWorkMode, index, experience.data.collapsedOn)}
+								>
+									<summary>
+										<div class="summary-main">
+											<h3>
+												{experience.data.position}
+												<span class="text-[color:var(--ink-3)]"> @ {experience.data.company}</span>
+											</h3>
+											<p class="meta">{experience.data.location} - {experience.data.engagementType}</p>
+										</div>
+										<div class="summary-right">
+											{typeof experience.data.stars === 'number' && <span class="star-pill">★ {experience.data.stars}</span>}
+											<p class="meta-date">{experience.data.start} to {experience.data.end}</p>
+											<span class="toggle-indicator" aria-hidden="true"></span>
+										</div>
+									</summary>
+									<div class="entry-toggle-content">
+										<Content />
+										<ul class="chip-list">
+											{experience.data.technologies.map((tech) => <li>{tech}</li>)}
+										</ul>
+									</div>
+								</details>
+							))}
+						</div>
+					</section>
+				)}
+
+				{productItems.length > 0 && (
+					<section class="section-block" id="products-and-ventures">
+						<h2>Products and Ventures</h2>
+						<div class="grid gap-4">
+							{productItems.map(({ entry: product, Content }, index) => (
+								<details
+									class="entry-toggle print:break-inside-avoid-page"
+									open={isOpenByMode(collapseProductsMode, index, product.data.collapsedOn)}
+								>
+									<summary>
+										<div class="summary-main">
+											<h3>{product.data.name}</h3>
+											<p class="meta">
+												{product.data.group} - {product.data.status}
+											</p>
+										</div>
+										<div class="summary-right">
+											{typeof product.data.stars === 'number' && <span class="star-pill">★ {product.data.stars}</span>}
+											<span class="toggle-indicator" aria-hidden="true"></span>
+										</div>
+									</summary>
+									<div class="entry-toggle-content">
+										<Content />
+										<ul class="chip-list">
+											{product.data.technologies.map((tech) => <li>{tech}</li>)}
+										</ul>
+									</div>
+								</details>
+							))}
+						</div>
+					</section>
+				)}
+			</div>
+		</div>
+
+		<section class="section-block hidden print:block" id="skills-print">
+			<h2>Core Skills</h2>
+			<div class="skills-grid">
+				{skillGroups.map((group) => (
+					<article class="entry-card skill-card print:break-inside-avoid-page">
+						<h3>{group.entry.data.title}</h3>
+						<ul class="list-dash compact skill-list">
+							{group.items.map((item) => <li>{item.name}</li>)}
+						</ul>
+					</article>
+				))}
+			</div>
+		</section>
+
+		{ecosystemItems.length > 0 && (
+			<section class="section-block section-full" id="open-source-ecosystems">
+				<h2>Open Source Ecosystem</h2>
+				<p class="section-headline">
+					Selected ecosystem-level work focused on reusable tooling, integrations, and community-facing engineering.
+				</p>
+				<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
+					{ecosystemItems.map(({ entry: ecosystem, Content }) => (
+						<article class="entry-card print:break-inside-avoid-page">
+							<div class="card-head-row">
+								<h3>{ecosystem.data.name}</h3>
+								{typeof ecosystem.data.stars === 'number' && <span class="star-pill">★ {ecosystem.data.stars}</span>}
+							</div>
+							<p class="meta">
+								{ecosystem.data.focus} - {ecosystem.data.status}
+							</p>
+							<Content />
+							{ecosystem.data.scale && <p class="meta">{ecosystem.data.scale}</p>}
+							<p class="meta-link">
+								<a href={ecosystem.data.link}>Explore</a>
+							</p>
+						</article>
+					))}
+				</div>
+				{githubProfile && (
+					<p class="meta-link mt-3">
+						Explore the broader ecosystem on <a href={githubProfile.url}>{githubProfile.label}</a>.
+					</p>
+				)}
+			</section>
+		)}
+
+		<details class="section-toggle mt-6" open>
+			<summary>Education</summary>
+			<section class="section-block pt-2" id="education">
+				<EducationContent />
+			</section>
+		</details>
+	</div>
+</main>
+
+<script>
+	const themeButtons = document.querySelectorAll('.js-theme-toggle');
+	const stickyHeader = document.getElementById('sticky-header');
+	const root = document.documentElement;
+
+	const setTheme = (theme) => {
+		root.dataset.theme = theme;
+		themeButtons.forEach((button) => {
+			button.textContent = theme === 'dark' ? 'Light Theme' : 'Dark Theme';
+		});
+	};
+
+	themeButtons.forEach((button) => {
+		button.addEventListener('click', () => {
+			const currentTheme = root.dataset.theme === 'dark' ? 'dark' : 'light';
+			const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+			localStorage.setItem('cv-theme', nextTheme);
+			setTheme(nextTheme);
+		});
+	});
+
+	document.querySelectorAll('.js-version-switch').forEach((select) => {
+		select.addEventListener('change', (event) => {
+			const target = event.target;
+			if (target instanceof HTMLSelectElement && target.value) {
+				window.location.assign(target.value);
+			}
+		});
+	});
+
+	const savedTheme = localStorage.getItem('cv-theme');
+	if (savedTheme === 'dark' || savedTheme === 'light') {
+		setTheme(savedTheme);
+	}
+
+	const toggleSticky = () => {
+		if (!stickyHeader) {
+			return;
+		}
+
+		const shouldShow = window.scrollY > 140;
+		stickyHeader.classList.toggle('is-visible', shouldShow);
+		stickyHeader.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
+	};
+
+	window.addEventListener('scroll', toggleSticky, { passive: true });
+	toggleSticky();
+
+	const detailStates = new Map();
+
+	const expandAllForPrint = () => {
+		document.querySelectorAll('details').forEach((element, index) => {
+			detailStates.set(index, element.open);
+			element.open = true;
+		});
+	};
+
+	const restoreAfterPrint = () => {
+		document.querySelectorAll('details').forEach((element, index) => {
+			if (detailStates.has(index)) {
+				element.open = detailStates.get(index) === true;
+			}
+		});
+		detailStates.clear();
+	};
+
+	window.addEventListener('beforeprint', expandAllForPrint);
+	window.addEventListener('afterprint', restoreAfterPrint);
+</script>

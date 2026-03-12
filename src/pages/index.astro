@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CvPage from '../components/CvPage.astro';
+import { getCollection } from 'astro:content';
+
+const [site] = await getCollection('site');
+const [aboutMe] = await getCollection('aboutMe');
+---
+
+<Layout title={`${site.data.title} | CV`} description={aboutMe.data.headline}>
+	<CvPage versionSlug="full" />
+</Layout>

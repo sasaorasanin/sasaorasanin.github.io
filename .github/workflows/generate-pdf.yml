@@ -1,0 +1,72 @@
+name: Generate CV PDF
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - content/**
+      - src/**
+      - scripts/**
+      - package.json
+      - package-lock.json
+      - astro.config.mjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  generate-pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Start static server
+        run: npx http-server ./dist -p 4321 -c-1 &
+
+      - name: Generate full PDF
+        run: npm run generate:pdf
+        env:
+          CV_URL: http://127.0.0.1:4321/
+          CV_PDF_OUTPUT: public/cv/Sasa-Orasanin-CV.pdf
+
+      - name: Generate .NET PDF
+        run: npm run generate:pdf
+        env:
+          CV_URL: http://127.0.0.1:4321/dot-net/
+          CV_PDF_OUTPUT: public/cv/Sasa-Orasanin-CV-dot-net.pdf
+
+      - name: Generate PHP PDF
+        run: npm run generate:pdf
+        env:
+          CV_URL: http://127.0.0.1:4321/php/
+          CV_PDF_OUTPUT: public/cv/Sasa-Orasanin-CV-php.pdf
+
+      - name: Generate Laravel PDF
+        run: npm run generate:pdf
+        env:
+          CV_URL: http://127.0.0.1:4321/laravel/
+          CV_PDF_OUTPUT: public/cv/Sasa-Orasanin-CV-laravel.pdf
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Sasa-Orasanin-CV
+          path: public/cv/*.pdf
