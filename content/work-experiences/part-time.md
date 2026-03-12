@@ -9,7 +9,7 @@ displayOn:
   - dot-net
   - php
   - laravel
-priority: []
+priority: {}
 collapsedOn:
   - all
 order: 4
