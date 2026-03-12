@@ -1,0 +1,61 @@
+name: Add CV Version
+description: Create a new markdown version under content/versions
+title: "[content/version] "
+labels:
+  - content
+  - content:version
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Version Name
+      placeholder: .NET CV
+    validations:
+      required: true
+
+  - type: input
+    id: slug
+    attributes:
+      label: Slug
+      placeholder: dot-net
+    validations:
+      required: true
+
+  - type: input
+    id: order
+    attributes:
+      label: Order
+      placeholder: "2"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: collapse_work
+    attributes:
+      label: Collapse Work Experiences
+      options:
+        - mixed
+        - all
+        - none
+    validations:
+      required: false
+
+  - type: dropdown
+    id: collapse_products
+    attributes:
+      label: Collapse Products
+      options:
+        - mixed
+        - all
+        - none
+    validations:
+      required: false
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      render: markdown
+      placeholder: What this version is optimized for.
+    validations:
+      required: false

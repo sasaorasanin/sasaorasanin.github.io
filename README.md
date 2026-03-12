@@ -49,9 +49,12 @@ Static, Markdown-first CV website built with Astro and Tailwind, ready for GitHu
 │   ├── layouts/
 │   ├── pages/
 │   └── styles/
-└── .github/workflows/
-		├── deploy-pages.yml
-		└── generate-pdf.yml
+└── .github/
+		├── ISSUE_TEMPLATE/
+		└── workflows/
+				├── deploy-pages.yml
+				├── generate-pdf.yml
+				└── issue-form-to-content.yml
 ```
 
 ## Local development
@@ -123,7 +126,7 @@ For repeatable entries (work experiences, products, ecosystems), frontmatter sup
 
 - `displayOn`: list of versions where an item should appear.
 - `priority`: per-version priority map (lower number appears earlier).
-- `collapsed`: controls default collapsed state when version collapse mode is `mixed`.
+- `collapsedOn`: list of versions where an item should start collapsed when mode is `mixed`.
 - `stars`: optional numeric badge shown on cards/summaries.
 
 Example:
@@ -134,16 +137,17 @@ displayOn:
 	- php
 priority:
 	dot-net: 1
-collapsed: false
+collapsedOn:
+	- php
+	- laravel
 stars: 120
 ```
 
 Version files can also define default collapse mode:
 
 ```md
-collapse:
-	workExperiences: mixed # all | none | mixed
-	products: all
+collapseWork: mixed # all | none | mixed
+collapseProducts: all
 ```
 
 Skill items support both simple strings and rich object format:
@@ -221,6 +225,29 @@ Workflow: `.github/workflows/generate-pdf.yml`
 
 - Triggered on pushes that touch CV/content/app files and manual dispatch.
 - Builds site, serves `dist/`, generates PDF with Playwright, uploads PDF artifact.
+
+### Issue Form to Content
+
+Workflow: `.github/workflows/issue-form-to-content.yml`
+
+- Triggered when content issue forms are opened or edited.
+- Parses form fields and generates a Markdown file in the matching content folder.
+- Commits generated content directly to `main`.
+- Comments on the issue with the created file path.
+
+Supported forms under `.github/ISSUE_TEMPLATE/`:
+
+- `add-work-experience.yml` -> `content/work-experiences/*.md`
+- `add-product.yml` -> `content/products/*.md`
+- `add-ecosystem.yml` -> `content/ecosystems/*.md`
+- `add-skill-group.yml` -> `content/skills/*.md`
+- `add-version.yml` -> `content/versions/*.md`
+
+Implementation script: `scripts/issue-form-to-content.mjs`
+
+- Detects content type from issue labels.
+- Converts field sections into typed frontmatter.
+- Appends `-2`, `-3`, ... to slug filename if a file already exists.
 
 ## Enabling GitHub Pages
 

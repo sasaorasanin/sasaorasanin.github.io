@@ -1,0 +1,127 @@
+name: Add Product or Venture
+description: Create a new markdown product entry under content/products
+title: "[content/product] "
+labels:
+  - content
+  - content:product
+body:
+  - type: input
+    id: slug
+    attributes:
+      label: Slug
+      placeholder: web2app
+    validations:
+      required: false
+
+  - type: input
+    id: name
+    attributes:
+      label: Product Name
+      placeholder: Web2App
+    validations:
+      required: true
+
+  - type: input
+    id: group
+    attributes:
+      label: Group
+      placeholder: Products & Ventures
+    validations:
+      required: true
+
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      options:
+        - In Development
+        - Active Product
+        - Product Concept
+        - Internal Venture
+        - Private Product
+        - MVP
+    validations:
+      required: true
+
+  - type: input
+    id: order
+    attributes:
+      label: Order
+      placeholder: "2"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: display_on
+    attributes:
+      label: Display On Versions
+      multiple: true
+      options:
+        - full
+        - dot-net
+        - php
+        - laravel
+    validations:
+      required: false
+
+  - type: dropdown
+    id: collapsed_on
+    attributes:
+      label: Collapsed On
+      multiple: true
+      options:
+        - all
+        - full
+        - dot-net
+        - php
+        - laravel
+    validations:
+      required: false
+
+  - type: input
+    id: stars
+    attributes:
+      label: Stars
+      placeholder: "42"
+    validations:
+      required: false
+
+  - type: textarea
+    id: priority
+    attributes:
+      label: Priority per version
+      description: Optional lines version=value.
+      placeholder: |
+        php=1
+        laravel=1
+    validations:
+      required: false
+
+  - type: textarea
+    id: technologies
+    attributes:
+      label: Technologies
+      description: One per line.
+      placeholder: |
+        Android
+        iOS
+        WebView
+    validations:
+      required: false
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: highlights
+    attributes:
+      label: Highlights
+      render: markdown
+      description: One bullet per line, or plain lines.
+    validations:
+      required: false

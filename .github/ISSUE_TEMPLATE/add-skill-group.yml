@@ -1,0 +1,64 @@
+name: Add Skill Group
+description: Create a new markdown skill group under content/skills
+title: "[content/skill] "
+labels:
+  - content
+  - content:skill
+body:
+  - type: input
+    id: slug
+    attributes:
+      label: Slug
+      placeholder: languages-frameworks
+    validations:
+      required: false
+
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      placeholder: Languages and Frameworks
+    validations:
+      required: true
+
+  - type: input
+    id: order
+    attributes:
+      label: Group Order
+      placeholder: "1"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: display_on
+    attributes:
+      label: Group Display On Versions
+      multiple: true
+      options:
+        - full
+        - dot-net
+        - php
+        - laravel
+    validations:
+      required: false
+
+  - type: textarea
+    id: items
+    attributes:
+      label: Items
+      render: markdown
+      description: One line per item using name | order | tags(csv). Example C# / ASP.NET | 1 | full,dot-net
+      placeholder: |
+        C# / ASP.NET | 1 | full,dot-net
+        PHP (Laravel) | 2 | full,php,laravel
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      render: markdown
+      description: Optional paragraph under frontmatter.
+    validations:
+      required: false
