@@ -30,7 +30,7 @@ export const collections = {
     })
   }),
   aboutMe: defineCollection({
-    loader: glob({ pattern: 'about-me.md', base: './content' }),
+    loader: glob({ pattern: '*.md', base: './content/about-me' }),
     schema: z.object({
       title: z.string(),
       headline: z.string(),
@@ -38,6 +38,7 @@ export const collections = {
       email: z.string().email(),
       github: z.string().url(),
       linkedin: z.string().url(),
+      displayOn: z.array(z.string()).optional(),
       order: z.number().optional()
     })
   }),

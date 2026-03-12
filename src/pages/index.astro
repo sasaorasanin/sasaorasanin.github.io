@@ -4,7 +4,8 @@ import CvPage from '../components/CvPage.astro';
 import { getCollection } from 'astro:content';
 
 const [site] = await getCollection('site');
-const [aboutMe] = await getCollection('aboutMe');
+const aboutMeEntries = await getCollection('aboutMe');
+const aboutMe = aboutMeEntries.find((entry) => entry.id === 'full') ?? aboutMeEntries[0];
 ---
 
 <Layout title={`${site.data.title} | CV`} description={aboutMe.data.headline}>

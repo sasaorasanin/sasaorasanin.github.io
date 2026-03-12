@@ -8,13 +8,17 @@ interface Props {
 const { versionSlug = 'full' } = Astro.props;
 
 const [site] = await getCollection('site');
-const [aboutMe] = await getCollection('aboutMe');
+const aboutMeEntries = await getCollection('aboutMe');
 const [education] = await getCollection('education');
 const [contact] = await getCollection('contact');
 
 const versions = await getCollection('versions');
 const selectedVersion = versions.find((entry) => entry.data.slug === versionSlug) ?? versions[0];
 const selectedVersionSlug = selectedVersion?.data.slug ?? 'full';
+const selectedAboutMe =
+	aboutMeEntries.find((entry) => entry.id === selectedVersionSlug || entry.data.displayOn?.includes(selectedVersionSlug)) ??
+	aboutMeEntries.find((entry) => entry.id === 'full') ??
+	aboutMeEntries[0];
 const sortedVersions = [...versions].sort((a, b) => (a.data.order ?? Number.MAX_SAFE_INTEGER) - (b.data.order ?? Number.MAX_SAFE_INTEGER));
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 const versionOptions = sortedVersions.map((version) => ({
@@ -122,7 +126,7 @@ const skillGroups = sortedSkills
 	})
 	.filter((group) => selectedVersionSlug === 'full' || group.items.length > 0);
 
-const aboutRender = await render(aboutMe);
+const aboutRender = await render(selectedAboutMe);
 const educationRender = await render(education);
 const contactRender = await render(contact);
 
@@ -240,7 +244,7 @@ const isOpenByMode = (mode, index, collapsedOn) => {
 			<div class="space-y-6 print:space-y-4">
 				<section class="section-block pt-0 print:break-inside-avoid-page" id="about-me">
 					<h2>About Me</h2>
-					<p class="section-headline">{aboutMe.data.headline}</p>
+					<p class="section-headline">{selectedAboutMe.data.headline}</p>
 					<AboutContent />
 				</section>
 
