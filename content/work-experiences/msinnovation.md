@@ -1,18 +1,19 @@
 ---
 company: MSInnovation
-position: Contractor
-start: 2022-03
-end: 2022-08
+position: Senior Software Engineer (Contract)
+start: 2022-08
+end: 2023-03
 location: Remote
-engagementType: Contract
+engagementType: Full-time
 displayOn:
   - dot-net
   - php
   - laravel
 priority:
   dot-net: 2
-collapsedOn: []
-order: 1
+collapsedOn:
+  - all
+order: 3
 technologies:
   - C#
   - ASP.NET

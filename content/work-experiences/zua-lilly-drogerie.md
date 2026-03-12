@@ -10,7 +10,7 @@ displayOn:
   - laravel
 collapsedOn:
   - all
-order: 7
+order: 8
 technologies:
   - Laravel
   - PHP

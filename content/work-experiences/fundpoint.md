@@ -1,10 +1,10 @@
 ---
 company: FundPoint
-position: Software Engineer (Contract)
-start: 2022-08
+position: Senior Software Engineer (Contract)
+start: 2022-09
 end: Present
 location: Remote
-engagementType: Contract
+engagementType: Full-time
 displayOn:
   - dot-net
   - php
@@ -12,7 +12,7 @@ displayOn:
 priority:
   dot-net: 1
 collapsedOn: []
-order: 3
+order: 1
 technologies:
   - C#
   - ASP.NET

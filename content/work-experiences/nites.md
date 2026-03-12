@@ -9,7 +9,7 @@ displayOn:
   - dot-net
 collapsedOn:
   - all
-order: 6
+order: 7
 technologies:
   - Java
   - Ubuntu

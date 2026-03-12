@@ -12,7 +12,7 @@ priority:
   laravel: 3
 collapsedOn:
   - all
-order: 4
+order: 5
 technologies:
   - PHP 7.1
   - MySQL

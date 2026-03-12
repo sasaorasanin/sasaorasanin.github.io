@@ -2,7 +2,7 @@
 name: OpnApp
 group: Products & Ventures
 status: MVP
-order: 3
+order: 1
 displayOn:
   - full
 collapsedOn:

@@ -1,6 +1,6 @@
 ---
 company: JAGGAER
-position: Software Engineer
+position: Medior Software Engineer
 start: 2020-08
 end: 2021-09
 location: Serbia
@@ -11,7 +11,7 @@ priority:
   php: 3
 collapsedOn:
   - all
-order: 5
+order: 6
 technologies:
   - PHP
   - Backbone.js

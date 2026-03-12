@@ -2,7 +2,7 @@
 name: Qrkets
 group: Products & Ventures
 status: Active Product
-order: 1
+order: 3
 displayOn:
   - full
 collapsedOn: []
