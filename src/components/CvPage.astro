@@ -7,7 +7,7 @@ interface Props {
 
 const { versionSlug = 'full' } = Astro.props;
 
-const [site] = await getCollection('site');
+const siteEntries = await getCollection('site');
 const aboutMeEntries = await getCollection('aboutMe');
 const [education] = await getCollection('education');
 const [contact] = await getCollection('contact');
@@ -15,6 +15,10 @@ const [contact] = await getCollection('contact');
 const versions = await getCollection('versions');
 const selectedVersion = versions.find((entry) => entry.data.slug === versionSlug) ?? versions[0];
 const selectedVersionSlug = selectedVersion?.data.slug ?? 'full';
+const selectedSite =
+	siteEntries.find((entry) => entry.id === selectedVersionSlug || entry.data.displayOn?.includes(selectedVersionSlug)) ??
+	siteEntries.find((entry) => entry.id === 'full') ??
+	siteEntries[0];
 const selectedAboutMe =
 	aboutMeEntries.find((entry) => entry.id === selectedVersionSlug || entry.data.displayOn?.includes(selectedVersionSlug)) ??
 	aboutMeEntries.find((entry) => entry.id === 'full') ??
@@ -27,7 +31,7 @@ const versionOptions = sortedVersions.map((version) => ({
 	href: version.data.slug === 'full' ? baseUrl : `${baseUrl}${version.data.slug}/`
 }));
 const pdfPath =
-	selectedVersionSlug === 'full' ? site.data.pdfPath : `/cv/Sasa-Orasanin-CV-${selectedVersionSlug}.pdf`;
+	selectedVersionSlug === 'full' ? selectedSite.data.pdfPath : `/cv/Sasa-Orasanin-CV-${selectedVersionSlug}.pdf`;
 
 const workExperiences = await getCollection('workExperiences');
 const skills = await getCollection('skills');
@@ -158,8 +162,8 @@ const isOpenByMode = (mode, index, collapsedOn) => {
 	<div id="sticky-header" class="sticky-header print:hidden" aria-hidden="true">
 		<div class="sticky-inner">
 			<div class="sticky-identity">
-				<p class="sticky-name">{site.data.title}</p>
-				<p class="sticky-role">{site.data.role}</p>
+				<p class="sticky-name">{selectedSite.data.title}</p>
+				<p class="sticky-role">{selectedSite.data.role}</p>
 			</div>
 			<div class="flex flex-wrap gap-2">
 				<button type="button" class="btn-secondary js-theme-toggle" title="Switch light and dark mode">
@@ -182,8 +186,8 @@ const isOpenByMode = (mode, index, collapsedOn) => {
 			<div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
 				<div>
 					<p class="eyebrow">Curriculum Vitae</p>
-					<h1 class="mt-1 text-4xl font-semibold tracking-tight sm:text-5xl">{site.data.title}</h1>
-					<p class="mt-2 text-lg text-[color:var(--ink-2)]">{site.data.role}</p>
+					<h1 class="mt-1 text-4xl font-semibold tracking-tight sm:text-5xl">{selectedSite.data.title}</h1>
+					<p class="mt-2 text-lg text-[color:var(--ink-2)]">{selectedSite.data.role}</p>
 				</div>
 				<div class="flex flex-wrap gap-2 print:hidden">
 					<button type="button" class="btn-secondary js-theme-toggle" title="Switch light and dark mode">

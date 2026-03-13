@@ -19,13 +19,14 @@ const displaySchema = z.object({
 
 export const collections = {
   site: defineCollection({
-    loader: glob({ pattern: 'site.md', base: './content' }),
+    loader: glob({ pattern: '*.md', base: './content/site' }),
     schema: z.object({
       title: z.string(),
       role: z.string(),
       location: z.string(),
       website: z.string().url(),
       pdfPath: z.string(),
+      displayOn: z.array(z.string()).optional(),
       order: z.number().optional()
     })
   }),

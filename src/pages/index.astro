@@ -3,7 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import CvPage from '../components/CvPage.astro';
 import { getCollection } from 'astro:content';
 
-const [site] = await getCollection('site');
+const siteEntries = await getCollection('site');
+const site = siteEntries.find((entry) => entry.id === 'full') ?? siteEntries[0];
 const aboutMeEntries = await getCollection('aboutMe');
 const aboutMe = aboutMeEntries.find((entry) => entry.id === 'full') ?? aboutMeEntries[0];
 ---
